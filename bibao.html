@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="number">1</h1>
+    <button onclick="add()">点击+1</button>
+    <button onclick="jia()">我也能让num+1</button>
+    <input type="text" oninput="input()">
+    <script>
+        function dayin(param)
+        {
+            console.log("红底14cm高跟靴！");
+            console.log("param:",param);
+        }
+        
+        // 函数防抖 基本代码
+        let timer;
+        let a=debounce(dayin,1000);
+        let b=debounce(dayin,1000);
+        console.log(a===b);
+        console.log(a,b);
+        console.log(a.prototype)
+        console.log(b.prototype);
+        function input()
+        {
+            a();
+        }
+        
+
+        // 使用一个函数，提供要执行的函数、等待时间即可运行
+
+        // 问题在于timer这个全局变量，我要怎么弄
+        // 闭包可以使得父函数的变量不被销毁，一直在内存中！
+        function debounce(func,time,...params)
+        {
+            let timeid;
+            console.log("...params:",params);
+            // 把防抖的工作return出去
+            return function(){
+                if(timeid){clearTimeout(timeid)}
+                //在此函数可以访问父函数的timeid变量,闭包，使得timeid一直在内存中，没有被销毁
+                
+                timeid=setTimeout(()=>{func(params)},time);
+            }
+            
+            
+            
+        }
+        function fangdou(func,duration=1000)
+        {
+            let idtime;
+            return ()=>{
+                clearTimeout(idtime);
+                idtime=setTimeout(()=>{func()},duration);
+            }
+        }
+        const ddayin=fangdou(function(){console.log("浏览器窗口发生改变")},2000);
+        window.onresize=ddayin;
+        debounce(dayin,500,1,2,3,4,5,6,7,8,9);
+    </script>
+</body>
+</html>
